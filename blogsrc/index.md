@@ -7,3 +7,5 @@ It's so easy actually, github pages has free hosting, and I can write something 
 Isn't that nice for me.
 
 Anyway, this page should be incredibly temporary until I get something real set up.
+
+

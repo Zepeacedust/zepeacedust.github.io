@@ -1,8 +1,13 @@
 body {
     background: #F8F0E3;
+    text-align: left;
+}
+
+h1 {
     text-align: center;
 }
 
 .central {
-    max-width: 100em
+    max-width: 60em;
+    margin: 0 auto;
 }

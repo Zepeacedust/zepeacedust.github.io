@@ -1,11 +1,12 @@
 import Text.Pandoc
+import Data.List (intercalate)
 import Data.List.Split (splitWhen)
 import System.FilePath (replaceExtension, takeDirectory)
 import qualified System.Directory as D
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 
-data FolderStructure = Folder String [FolderStructure] | File String deriving Show
+data FolderStructure = Dir String [FolderStructure] | File String deriving Show
 
 getFolderStructure :: FilePath -> IO FolderStructure
 getFolderStructure root = do
@@ -16,20 +17,16 @@ getFolderStructure root = do
     (False, True) -> do
       files <- D.listDirectory root
       inner <- sequence.map getFolderStructure $ map (\f -> root ++ "/" ++ f) files
-      return (Folder root inner)
+      return (Dir root inner)
     (True, True) -> error (root ++ " is both Folder and Directory... What?")
     (False,False) -> error (root ++ "does not exist")
 
 flatten :: FolderStructure -> [String]
-flatten (Folder _ inner)  = concat.map flatten $ inner 
+flatten (Dir _ inner)  = concat.map flatten $ inner 
 flatten (File name) = [name]
 
-swapPrefix :: Eq a => a -> [a] ->  [a] -> [a]
-swapPrefix sep new old = concat (new : [sep] :  rest) where
-  tip:rest = splitWhen (==sep) old
-
 removePrefix :: Eq a => a -> [a] -> [a]
-removePrefix sep old = concat.tail $ splitWhen (== sep) old
+removePrefix sep old = intercalate [sep].tail $ splitWhen (== sep) old
 
 
 destinationFile :: String -> String
@@ -53,15 +50,29 @@ transpile template fileName =  do
 
 makeTemplate :: String -> IO (Template T.Text)
 makeTemplate templateName = do 
-  Right temp <- runIO (getTemplate templateName)
-  Right fin <- compileTemplate "" temp
-  return fin
+  Right source <- runIO (getTemplate templateName)
+  Right templ <- compileTemplate "" source
+  return templ
+
+find :: (a -> Bool) -> [a] -> Maybe a
+find _ [] = Nothing
+find p (x:xs) = if p x then Just x else find p xs
+
+isDirWithName name (Dir n _) = n == name
+isDirWithName _ (File _) = False
+
+findDir name (Dir _ inner) = find (isDirWithName name) inner
+
+makeIndex tree = do
+  print "TeeHee"
 
 main :: IO ()
 main = do
   struct <- getFolderStructure "blogsrc"
   let allFiles = flatten struct
-  template <- makeTemplate "template.html"
-  sequence.map (transpile template) $ allFiles
-  print "all done"
+  template <- makeTemplate "templates/template.html"
+  _ <- sequence.map (transpile template) $ allFiles
+  let blogFolder = findDir "blog" struct
+  makeIndex blogFolder
+  putStrLn "all done"
 
