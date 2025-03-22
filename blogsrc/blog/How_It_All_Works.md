@@ -153,4 +153,4 @@ main = do
   makeIndex blogFolder
   putStrLn "all done"
 ```
-This is all available on the [github](github.com/zepeacedust/zepeacedust.github.io)
+This is all available on the [github](https://github.com/zepeacedust/zepeacedust.github.io)

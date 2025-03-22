@@ -1,11 +1,14 @@
 import Text.Pandoc
-import Data.List (intercalate)
+import Data.List (intercalate, sortBy)
 import Data.List.Split (splitWhen)
 import System.FilePath (replaceExtension, takeDirectory)
+import Data.Ord
+import Data.Time
 import qualified System.Directory as D
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
-import qualified Data.Map.Strict as M 
+import qualified Data.Map.Strict as M
+
 data FolderStructure = Dir String [FolderStructure] | File String Pandoc deriving Show
 
 
@@ -83,11 +86,20 @@ getMetaRep (File name content) =
    in MetaMap(M.union original path)
 getMetaRep _ = error "Directory has no metadata"
 
+--getDate :: FolderStructure -> T.Text
+getDate (File name content) = date where
+  meta = getMeta content
+  result = lookupMeta (T.pack "date") meta
+  Just(MetaInlines[Str dateString]) = result -- fuck ugly but it works
+  date = parseTimeOrError True defaultTimeLocale "%-d/%-m/%Y" (T.unpack dateString) :: UTCTime
+
+sortByDate :: [FolderStructure] ->[FolderStructure]
+sortByDate = sortBy (comparing getDate) 
 
 makeIndex :: FolderStructure -> IO ()
 makeIndex (Dir name inner) = do
   let indexName = destinationFile (name++"/index.html")
-  let postList = MetaList(map getMetaRep inner)
+  let postList = MetaList(map getMetaRep (reverse.sortByDate$ inner))
       newMeta = Meta (M.singleton (T.pack "post") postList)
   template <- makeTemplate "templates/indexTemp.html"
   pasteFile template indexName(Pandoc newMeta [])
