@@ -1,5 +1,5 @@
 import Text.Pandoc
-import Data.List (intercalate, sortBy)
+import Data.List (intercalate, sortBy, nub)
 import Data.List.Split (splitWhen)
 import System.FilePath (replaceExtension, takeDirectory)
 import Data.Ord
@@ -86,6 +86,10 @@ getMetaRep (File name content) =
    in MetaMap(M.union original path)
 getMetaRep _ = error "Directory has no metadata"
 
+getContent :: FolderStructure -> Pandoc
+getContent (File _ content) = content
+getContent (Dir name _) = error (name ++" is a Directory not file")
+
 --getDate :: FolderStructure -> T.Text
 getDate (File name content) = date where
   meta = getMeta content
@@ -96,13 +100,33 @@ getDate (File name content) = date where
 sortByDate :: [FolderStructure] ->[FolderStructure]
 sortByDate = sortBy (comparing getDate) 
 
+--getTags :: FolderStructure -> [T.Text]
+getTags file = tags where
+  meta = getMeta.getContent $ file
+  Just (MetaList metaTags) = lookupMeta (T.pack "tags") meta -- This is just filty
+  tags = map (\(MetaInlines [Str tag]) -> tag) metaTags -- This is too, but as long as I follow the format it will still work
+
+getAllTags :: [FolderStructure] -> [T.Text] 
+getAllTags fs = nub.concat.map getTags$ fs
+
+hasTag :: T.Text -> FolderStructure -> Bool
+hasTag tag file = elem tag (getTags file)
+
 makeIndex :: FolderStructure -> IO ()
 makeIndex (Dir name inner) = do
-  let indexName = destinationFile (name++"/index.html")
+  makeIndexFromFiles (name++"/index.html") inner -- full index
+  let tags = getAllTags inner
+  sequence (map (\tag -> makeIndexFromFiles (name++"/index_"++(T.unpack tag)) (filter (hasTag tag) inner)) tags) -- tag indices
+  return ()
+
+makeIndexFromFiles :: String -> [FolderStructure] -> IO ()
+makeIndexFromFiles name inner = do
+  let indexName = destinationFile (name)
   let postList = MetaList(map getMetaRep (reverse.sortByDate$ inner))
       newMeta = Meta (M.singleton (T.pack "post") postList)
   template <- makeTemplate "templates/indexTemp.html"
   pasteFile template indexName(Pandoc newMeta [])
+
 
 main :: IO ()
 main = do

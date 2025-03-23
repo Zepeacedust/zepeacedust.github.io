@@ -2,6 +2,9 @@
 date: 22/3/2025
 title: How it all works
 abstract: A quick overview of how the blog is generated.
+tags:
+    - meta
+    - coding
 ---
 
 The blog is generated with a custom script that takes a bunch of markdown files and turns them into html via pandoc.

@@ -8,6 +8,11 @@
         <h1>A-Blog index</h1>
         $for(post)$
         <h2><a href = "/$post.path$" >$post.title$</a> $post.date$ </h2>
+        <p>
+            $for(post.tags)$
+            <a href = "index_$post.tags$.html">$post.tags$</a>
+            $endfor$
+            <p>
         <p>$post.abstract$</p>
         <hr>
         $endfor$
