@@ -4,8 +4,9 @@
         <link rel="stylesheet" href="/style/style.css" type="text/css" />
     </head>
     <body>
-        <div class="central">
+        <header>
         <h1 class="title">A-Blog index</h1>
+        </header>
         $for(post)$
         <h2><a href = "/$post.path$" >$post.title$</a> $post.date$ </h2>
         <p>
@@ -16,6 +17,5 @@
         <p>$post.abstract$</p>
         <hr>
         $endfor$
-        </div>
     </body>
 </html>
