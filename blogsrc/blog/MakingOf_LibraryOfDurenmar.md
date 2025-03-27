@@ -14,12 +14,15 @@ Like most projects, this one started as a minor annoyance in conversation about 
 That initial conversation went something like this:
 
 > A: Why does this work?
+>
 > B: By analogy to The Patient Spell
+>
 > A: What's the text on that again?
 
 Then I had an idea, what if it had went something like this:
 
 > A: Why does this work?
+>
 > B: By analogy to [[The Patient Spell]]
 
 And it would just link the spell automatically.
@@ -57,7 +60,9 @@ But some were too big, at over 3500 characters the Aegis of the Hearth was too b
 The masses rejoiced, but there was trouble in paradise.
 
 > A: Fuck you and your Covenant, I cast [[Stripping the Superfluous Reality]]
+>
 > B: Spell not found
+>
 > A: Fuck
 
 The masses, regrettably were not as perfect as the dataset, and what is a library that you cannot find the correct book in?
