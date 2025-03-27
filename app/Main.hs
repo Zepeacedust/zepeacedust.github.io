@@ -41,8 +41,9 @@ writeMakingFile name t = do
 processFile :: String -> IO Pandoc
 processFile fileName = do
   text <- TIO.readFile fileName
-  Right out <- runIO $ do
+  cont <- runIO $ do
     readMarkdown def{readerExtensions = extensionsFromList [Ext_yaml_metadata_block, Ext_backtick_code_blocks, Ext_grid_tables, Ext_tex_math_dollars], readerStandalone = True} text
+  let Right out = cont 
   return out
 
 pasteFile :: Template T.Text -> String -> Pandoc -> IO ()
