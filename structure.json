@@ -1,0 +1,12 @@
+{
+    "templateFolder":"templates",
+    "sourceFolder":"blogsrc",
+    "destinationFolder":".",
+    "defaultTemplate" : "template.html",
+    "indices":[
+        {
+            "indexTemplate":"indexTemp.html",
+            "indexFolder":"blogsrc/blog"
+        }
+    ]
+}
