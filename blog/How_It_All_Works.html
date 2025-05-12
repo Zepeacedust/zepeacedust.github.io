@@ -10,11 +10,11 @@
         <p>The blog is generated with a custom script that takes a bunch
         of markdown files and turns them into html via pandoc. It all
         started when I saw a some blog espousing the virtues of static
-        websites and thought "I could do that".</p>
+        websites and thought “I could do that”.</p>
         <p>So I had a bunch of issues with cabal and arch really not
         liking each other, and then started writing code pretty early in
         the evening.</p>
-        <p>Let's just go over the whole deal.</p>
+        <p>Let’s just go over the whole deal.</p>
         <p>To copy the folder structure and work with it neatly, I have
         a folder datastructure.</p>
         <div class="sourceCode" id="cb1"><pre
@@ -36,7 +36,7 @@
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span> (<span class="dt">Dir</span> root inner)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    (<span class="dt">True</span>, <span class="dt">True</span>) <span class="ot">-&gt;</span> <span class="fu">error</span> (root <span class="op">++</span> <span class="st">&quot; is both File and Directory... What?&quot;</span>)</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    (<span class="dt">False</span>,<span class="dt">False</span>) <span class="ot">-&gt;</span> <span class="fu">error</span> (root <span class="op">++</span> <span class="st">&quot;does not exist&quot;</span>)</span></code></pre></div>
-        <p>It's a bit clunky, but it's good enough.</p>
+        <p>It’s a bit clunky, but it’s good enough.</p>
         <p>Then I need a bit of filename manipulation that was not
         present in the libraries I was using, so I just wrote a few.</p>
         <div class="sourceCode" id="cb3"><pre
@@ -70,7 +70,7 @@
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  writeMakingFile fileName out  </span></code></pre></div>
         <p>Templates were a real piece of work, until I read the fucking
         manual(tm), I thought that compileTemplate was a PandocMonad but
-        it's a TemplateMonad, which is either IO or Id. Don't make my
+        it’s a TemplateMonad, which is either IO or Id. Don’t make my
         mistakes kids.</p>
         <p>This is all wrapped in a single function to isolate all of
         work somewhere that I can reuse it easily.</p>
@@ -90,7 +90,7 @@
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> ()</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>dumpFiles template (<span class="dt">File</span> name content) <span class="ot">=</span> <span class="kw">do</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  pasteFile template (destinationFile name) content</span></code></pre></div>
-        <p>But a blog that I can't just dump things into and make
+        <p>But a blog that I can’t just dump things into and make
         available is no blog at all, if I need to write links to all of
         my rants manually why even bother?</p>
         <p>So I set to work writing an index generator, starting with
@@ -132,7 +132,7 @@
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  template <span class="ot">&lt;-</span> makeTemplate <span class="st">&quot;templates/indexTemp.html&quot;</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  pasteFile template indexName(<span class="dt">Pandoc</span> newMeta [])</span></code></pre></div>
         <p>And the main function is just taping all that logic together,
-        it's nice enough but I will probably bastardize it with more
+        it’s nice enough but I will probably bastardize it with more
         modifications down the line someday.</p>
         <div class="sourceCode" id="cb11"><pre
         class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>

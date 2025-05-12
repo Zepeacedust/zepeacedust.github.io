@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title>How it all works 2: Electric boogaloo</title>
+        <link rel="stylesheet" href="/style/style.css" type="text/css" />
+    </head>
+    <body>
+        <header>
+        <h1 class="title">How it all works 2: Electric boogaloo</h1>
+        </header>
+        <p>I was working on some extension to the blog compiler, when I
+        started to get fed up with the absolute mess the codebase was.
+        After one thought of “This is stupid, why am I doing it this
+        way?” too many, I realized that I knew why I was doing it that
+        way. I wrote most of it mostly asleep, and never revised
+        anything.</p>
+        <aside>
+        Turns out that treating files and directories the same way leads
+        to a whole lot of edge case handling. Probably half of the
+        functions I was writing errored if I passed a directory into it,
+        this was not well documented at all.
+        </aside>
+        <p>At the root of the issue was the simple fact that individual
+        pages were being treated as files first, and pages second. This
+        version seeks to remedy that by replacing the central folder
+        datastructure with one focused on posts.</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">BlogPost</span> <span class="ot">=</span> <span class="dt">BlogPost</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  fileName ::</span> <span class="dt">String</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  postTitle ::</span> <span class="dt">T.Text</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  postTags ::</span> [<span class="dt">T.Text</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">  postDate ::</span> <span class="dt">UTCTime</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">  postContent ::</span> <span class="dt">Pandoc</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">  desiredTemplate ::</span> <span class="dt">Maybe</span> <span class="dt">T.Text</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+        <p>While this does duplicate a decent bit of data, I kind of
+        don’t care since accessing metadata is finnicky and can fail.
+        Having the interesting metadata in a structured format, where I
+        can reason about it within the structure of haskells type
+        system. While doing this I also decided that only having a hard
+        coded template for posts and indices is constraining. Now I can
+        have a clean look for the respectable projects, and still have
+        space for a parchment background for when I need to feel like a
+        wizard.</p>
+        <p>Another major usability improvement is pulling the
+        configuration out of hardcoded constants and into a seperate
+        json file. The structure file for the blog currently looks like
+        this.</p>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;templateFolder&quot;</span><span class="fu">:</span><span class="st">&quot;templates&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;sourceFolder&quot;</span><span class="fu">:</span><span class="st">&quot;blogsrc&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;destinationFolder&quot;</span><span class="fu">:</span><span class="st">&quot;.&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;defaultTemplate&quot;</span> <span class="fu">:</span> <span class="st">&quot;template.html&quot;</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;indices&quot;</span><span class="fu">:</span><span class="ot">[</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;indexTemplate&quot;</span><span class="fu">:</span><span class="st">&quot;indexTemp.html&quot;</span><span class="fu">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;indexFolder&quot;</span><span class="fu">:</span><span class="st">&quot;blogsrc/blog&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+        <p>Which is then transformed parsed into the following
+        datastructures using aeson.</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">IndexDescriptor</span> <span class="ot">=</span> <span class="dt">IndexDescriptor</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  indexFolder ::</span> <span class="dt">String</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  indexTemplate ::</span> <span class="dt">T.Text</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">$</span>(deriveJSON defaultOptions &#39;<span class="dt">&#39;IndexDescriptor</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Config</span> <span class="ot">=</span> <span class="dt">Config</span> {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ot">  sourceFolder ::</span> <span class="dt">String</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ot">  destinationFolder ::</span> <span class="dt">String</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ot">  templateFolder ::</span> <span class="dt">String</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ot">  defaultTemplate ::</span> <span class="dt">T.Text</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ot">  indices ::</span> [<span class="dt">IndexDescriptor</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="op">$</span>(deriveJSON defaultOptions &#39;<span class="dt">&#39;Config</span>)</span></code></pre></div>
+        <p><a href="https://hackage.haskell.org/package/aeson">Aeson</a>
+        is a json parsing library, and it can parse a json file into a
+        haskell datastructure without any extra work. This config object
+        is then passed through the parts that need it, I might want to
+        make a more elegant solution, but I don’t know if one really
+        exists. Now I don’t need to rebuild the entire program when I
+        want to change where I want the index to be, why didn’t I think
+        of this before :).</p>
+        <p>The new blog compiler is <a
+        href="https://github.com/Zepeacedust/Blog-Compiler">currently
+        hosted at github</a>, I figured that having the content and the
+        compiler so tightly coupled can only go poorly. That was also
+        partially motivated by another project where I needed to make a
+        static site, so I wanted to tweak the tooling to support
+        that.</p>
+        <p>I find it quite funny that I have done almost as many updates
+        to the backend as I have to the actual content of the blog, I’ll
+        say that I want to make more. Probably won’t though, and you
+        can’t make me.</p>
+    </body>
+</html>
