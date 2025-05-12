@@ -2,10 +2,16 @@
     <head>
         <title>$title$</title>
         <link rel="stylesheet" href="/style/style.css" type="text/css" />
+
     </head>
     <body>
         <header>
-        <h1 class="title">$title$</h1>
+            <h1 class="title">$title$</h1>
+            $for(tags)$
+            <a href="$tags$_index.html">$tags$</a>
+            $endfor$
+            <br>
+            <a href="index.html">Back to index</a>
         </header>
         $body$
     </body>
