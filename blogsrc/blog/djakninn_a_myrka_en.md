@@ -22,11 +22,14 @@ But as the weather calms just before christmas, the river does as well, and Guð
 She starts preparing for the journey, and when she is mostly finished there is a knock at the door. Another woman at the town answers the door and sees nobody, as it is in the twilight hours and the moon seldom peeks between the clouds.
 The woman returns and claims to not have seen anything, and Guðrún says:
 
+<aside>
+
+> Til mín mun leikurinn gjörður, og skal ég að vísu út ganga.
+
+</aside>
+
 > They are calling for me, and I shall greet them.
 
-<aside>
-> Til mín mun leikurinn gjörður, og skal ég að vísu út ganga.
-</aside>
 
 
 She had almost finished dressing, only missing her coat. She hurredly slipped on one sleeve, but laid the other over her shoulder and held it there.
@@ -34,12 +37,6 @@ When she came out, she saw Faxi stand by the door, and a man she assumed was the
 It is not known whether they talked at all, but he took Guðrún and sat her on the horse, and himself in front of her.
 They rode that way for a while without talking, when they came to the river Hörgá the horse jumped over it, and the deacons hat lifted so Guðrún could see the back of his head, and the exposed skull.
 At that moment the moon appeared from amidst the clouds and the deacon spoke:
-
-> the moon wains,  
-> And death rides.  
-> Do you see a white spot  
-> on the back of my head,  
-> Garún[Ghosts, in icelandic folklore, are believed to be unable to speak the name God, in icelandic "Guð", leading to the deacon prounouncing the name "Guðrún" as "Garún"], Garún^[In icelandic folklore, ghosts were believed to talk in verse, and often repeat words.]?
 
 <aside>
 > Máninn líður,  
@@ -49,29 +46,34 @@ At that moment the moon appeared from amidst the clouds and the deacon spoke:
 > Garún, Garún?  
 </aside>
 
+> the moon wains,  
+> And death rides.  
+> Do you see a white spot  
+> on the back of my head,  
+> Garún^[Ghosts, in icelandic folklore, are believed to be unable to speak the name God, in icelandic "Guð", leading to the deacon prounouncing the name "Guðrún" as "Garún"], Garún^[In icelandic folklore, ghosts were believed to talk in verse, and often repeat words.]?
+
+
 This frightened her, and she dared not speak. But some say that she lifted his hat, and saw his skull and said
+
+<aside>
+> Sé ég það, sem er.
+</aside>
 
 > I see that which is there.
 
-<aside>
-
-> Sé ég það, sem er.
-
-</aside>
 
 Nothing more is said of their conversation before they arrive at Myrká, and disembarked before the gate to the cemetary^[In icelandic, the gate to a cemetary is called "Sálihliðið", Lit. "gate of souls"], where the deacon again speaks:
+
+<aside>
+> Bíddu hérna, Garún, Garún,  
+> meðan eg flyt hann Faxa, Faxa,  
+> upp fyrir garða, garða."  
+</aside>
 
 > Wait here, Garún, Garún,  
 > while I move Faxi, Faxi,  
 > up to the fields, fields.  
 
-<aside>
-
-> Bíddu hérna, Garún, Garún,  
-> meðan eg flyt hann Faxa, Faxa,  
-> upp fyrir garða, garða."  
-
-</aside>
 
 He quickly left with the horse, but Guðrún cast her eyes to the cemetary.
 There she saw an open grave and was frightened. She grabs the bell rope to steady herself and in that moment is grabbed from behind.
