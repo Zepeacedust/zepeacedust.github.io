@@ -12,6 +12,7 @@ In the days before he went to invite her it had snowed considerably, and on that
 When he finally left he paid no mind to the changing conditions, and assumed that the river flowed as it had earlier. He crossed the river Yxnadalsá by bridge, but when he came to the river Hörgá it had shifted.
 He rides along it until he reaches Saurbær, a town just below Myrká.
 There was a bridge he could cross. The deacon rides over the bridge, but on the biddle it collapses and he falls into the river.
+
 The morning after, as the farmer at Þúfnavöllur^[A neighboring town roughly between Myrká and Bægisá] was getting out of bed he sees Faxi and the bottom of his field and recognizes him as the deacons horse.
 This shakes him a little, as he saw the deacon on his travels to Bægisá just the day before, but hadn't heard any news of his return. He quickly clues in to what must have happened and walks out to see Faxi soaking wet and worse for wear.
 He clambers down a steep slope down to the riverbank and finds the deacon washed up. He hurries to Myrká with the news.
@@ -46,7 +47,7 @@ At that moment the moon appeared from amidst the clouds and the deacon spoke:
 > Garún, Garún?  
 </aside>
 
-> the moon wains,  
+> the moon wanes,  
 > And death rides.  
 > Do you see a white spot  
 > on the back of my head,  
