@@ -1,6 +1,7 @@
 ---
 title: "Djákninn á Myrká: An Icelandic Ghost Story"
-date: 19/05/2025 
+date: 19/05/2025
+abstract: "An old icelandic ghost story that I was reminded of recently, translated by yours truly."
 ---
 A long time ago there was a deacon in the village of Myrká^[Lit. "Dark River"] around Eyjafjörður^[A fjord in the north of Iceland, contains Akureyri, the second largest settlement in Iceland.]; his name is not recorded.
 He was courting a woman by the name of Guðrún^[Roughly meaning "Friend of God"], by some accounts she lived at the village of Bægisá, on he other side of the river Hörgá, and was a maid to the priest there.
